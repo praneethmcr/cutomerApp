@@ -13,7 +13,6 @@ exports.getCustomers = (req, res) => {
 };
 
 exports.createCustomer = (req, res) => {
-  console.log(req.body.customer_name);
   const newCustomer =  {'customer_name' : req.body.customer_name, 'age':req.body.age, 'phone':req.body.phone, 'location':req.body.location};
   customerData
     .create(newCustomer)
@@ -23,5 +22,17 @@ exports.createCustomer = (req, res) => {
     .catch((err) => {
       console.log(err);
       res.status(500).send("Error in inserting New Customer");
+    });
+};
+
+exports.getCustomerscount = (req, res) => {
+  customerData
+    .customerCount()
+    .then((cust) => {
+      res.json(cust.rows);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send("Error getting in customer Data: ");
     });
 };

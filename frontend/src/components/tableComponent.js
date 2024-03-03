@@ -180,7 +180,7 @@ function TableComponent() {
       <Stack direction="row" justifyContent="space-between" marginTop={5}>
         <h2>Customers Data</h2>
         <TextField
-          sx={{ width: "20rem" }}
+          sx={{ width: "17.5rem" }}
           placeholder="Search by Customer Name or Location"
           variant="standard"
           value={searchQuery}

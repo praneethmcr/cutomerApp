@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import Header from "./components/HeaderComponent";
 import ActionAreaCard from "./components/CardComponent";
 import TableComponent from "./components/TableComponent";
@@ -7,6 +8,23 @@ import customerIcon from "./static/images/icon.png";
 import orderIcon from "./static/images/order.png";
 
 function App() {
+  const [customerCount, setCustomerCount] = useState(0);
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const customerDataResponse = await fetch(
+        "http://localhost:5000/customer/count"
+      );
+      const customerDataCount = await customerDataResponse.json();
+      setCustomerCount(customerDataCount[0].customercount);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   return (
     <div className="App">
       <Header />
@@ -19,12 +37,12 @@ function App() {
         >
           <ActionAreaCard
             cardName="Customers Count"
-            cardDescription="50"
+            cardDescription={customerCount}
             imgSrc={customerIcon}
           />
           <ActionAreaCard
             cardName="Today's  Orders"
-            cardDescription="0"
+            cardDescription={1000}
             imgSrc={orderIcon}
           />
         </Stack>
