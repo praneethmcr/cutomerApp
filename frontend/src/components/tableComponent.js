@@ -178,7 +178,7 @@ function TableComponent() {
   return (
     <div>
       <Stack direction="row" justifyContent="space-between" marginTop={5}>
-        <h2>Customer Data</h2>
+        <h2>Customers Data</h2>
         <TextField
           sx={{ width: "20rem" }}
           placeholder="Search by Customer Name or Location"
@@ -191,7 +191,7 @@ function TableComponent() {
         <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
           <TableHead>
             <TableRow>
-              <StyledTableCell>Sno</StyledTableCell>
+              <StyledTableCell>S.No</StyledTableCell>
               <StyledTableCell>Customer Name</StyledTableCell>
               <StyledTableCell>Age</StyledTableCell>
               <StyledTableCell>Phone</StyledTableCell>
