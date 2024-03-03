@@ -20,8 +20,8 @@ import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import Stack from "@mui/material/Stack";
-import InputBase from "@mui/material/InputBase";
 import axios from "axios";
+import { TextField } from "@mui/material";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -104,7 +104,7 @@ TablePaginationActions.propTypes = {
 
 function TableComponent() {
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(20);
   const [customers, setCustomers] = useState([]);
   const [sortOrder, setSortOrder] = useState({
     date: "asc",
@@ -151,18 +151,20 @@ function TableComponent() {
     const value = event.target.value;
     setSearchQuery(value);
     if (value === "") {
-        const fetchData = async () => {
-            try {
-              const response = await axios.get("http://localhost:5000/customer/data");
-              setCustomers(response.data);
-            } catch (error) {
-              console.error("Error fetching data:", error);
-            }
-          };
-      
-          fetchData();
+      const fetchData = async () => {
+        try {
+          const response = await axios.get(
+            "http://localhost:5000/customer/data"
+          );
+          setCustomers(response.data);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
 
-        return;
+      fetchData();
+
+      return;
     }
     const filteredCustomers = customers.filter(
       (customer) =>
@@ -177,14 +179,15 @@ function TableComponent() {
     <div>
       <Stack direction="row" justifyContent="space-between" marginTop={5}>
         <h2>Customer Data</h2>
-        <InputBase
-          placeholder="search by name or location"
-          inputProps={{ "aria-label": "search by name or location" }}
+        <TextField
+          sx={{ width: "20rem" }}
+          placeholder="Search by Customer Name or Location"
+          variant="standard"
           value={searchQuery}
           onChange={handleSearch}
         />
       </Stack>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{ marginTop: "0.5rem" }}>
         <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
           <TableHead>
             <TableRow>
@@ -239,14 +242,22 @@ function TableComponent() {
           <TableFooter>
             <TableRow>
               <TablePagination
-                rowsPerPageOptions={[20, { value: -1, label: "All" }]}
-                colSpan={6}
+                rowsPerPageOptions={[5, 20, { value: -1, label: "All" }]}
+                colSpan={8}
                 count={customers.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
                 ActionsComponent={TablePaginationActions}
+                slotProps={{
+                  select: {
+                    inputProps: {
+                      "aria-label": "rows per page",
+                    },
+                    native: true,
+                  },
+                }}
               />
             </TableRow>
           </TableFooter>
